@@ -51,7 +51,6 @@ const theme = {
         mb: "1",
       },
       p: {
-        fontSize: "1rem",
         lineHeight: "1.6rem",
       },
       blockquote: {
