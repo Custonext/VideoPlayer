@@ -68384,56 +68384,25 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-var Field = function Field(props) {
+var FormField = function FormField(props) {
   {/**
    email field data:
-      {
-          "name": "email",
-          "label": "E-mail",
-          "type": "string",
-          "fieldType": "text",
-          "description": "",
-          "groupName": "",
-          "displayOrder": -1,
-          "required": true,
-          "selectedOptions": [],
-          "options": [],
-          "validation": {
-              "name": "",
-              "message": "",
-              "data": "",
-              "useDefaultBlockList": true,
-              "blockedEmailAddresses": []
-          },
-          "enabled": true,
-          "hidden": false,
-          "defaultValue": "",
-          "isSmartField": false,
-          "unselectedLabel": "",
-          "placeholder": "",
-          "dependentFieldFilters": [],
-          "labelHidden": false,
-          "propertyObjectType": "CONTACT",
-          "metaData": [],
-          "objectTypeId": "0-1"
-      }
-   phone number field data:
    {
-      "name": "phone",
-      "label": "Telefoonnummer",
+      "name": "email",
+      "label": "E-mail",
       "type": "string",
-      "fieldType": "phonenumber",
+      "fieldType": "text",
       "description": "",
-      "groupName": "contactinformation",
+      "groupName": "",
       "displayOrder": -1,
-      "required": false,
+      "required": true,
       "selectedOptions": [],
       "options": [],
       "validation": {
           "name": "",
           "message": "",
-          "data": "7:20:true",
-          "useDefaultBlockList": false,
+          "data": "",
+          "useDefaultBlockList": true,
           "blockedEmailAddresses": []
       },
       "enabled": true,
@@ -68448,36 +68417,67 @@ var Field = function Field(props) {
       "metaData": [],
       "objectTypeId": "0-1"
    }
+   phone number field data:
+   {
+   "name": "phone",
+   "label": "Telefoonnummer",
+   "type": "string",
+   "fieldType": "phonenumber",
+   "description": "",
+   "groupName": "contactinformation",
+   "displayOrder": -1,
+   "required": false,
+   "selectedOptions": [],
+   "options": [],
+   "validation": {
+      "name": "",
+      "message": "",
+      "data": "7:20:true",
+      "useDefaultBlockList": false,
+      "blockedEmailAddresses": []
+   },
+   "enabled": true,
+   "hidden": false,
+   "defaultValue": "",
+   "isSmartField": false,
+   "unselectedLabel": "",
+   "placeholder": "",
+   "dependentFieldFilters": [],
+   "labelHidden": false,
+   "propertyObjectType": "CONTACT",
+   "metaData": [],
+   "objectTypeId": "0-1"
+   }
    first name field data:
    {
-      "name": "firstname",
-      "label": "Voornaam",
-      "type": "string",
-      "fieldType": "text",
-      "description": "",
-      "groupName": "",
-      "displayOrder": -1,
-      "required": false,
-      "selectedOptions": [],
-      "options": [],
-      "validation": {
-          "name": "",
-          "message": "",
-          "data": "",
-          "useDefaultBlockList": false,
-          "blockedEmailAddresses": []
-      },
-      "enabled": true,
-      "hidden": false,
-      "defaultValue": "",
-      "isSmartField": false,
-      "unselectedLabel": "",
-      "placeholder": "",
-      "dependentFieldFilters": [],
-      "labelHidden": false,
-      "propertyObjectType": "CONTACT",
-      "metaData": [],
-      "objectTypeId": "0-1"
+   "name": "firstname",
+   "label": "Voornaam",
+   "type": "string",
+   "fieldType": "text",
+   "description": "",
+   "groupName": "",
+   "displayOrder": -1,
+   "required": false,
+   "selectedOptions": [],
+   "options": [],
+   "validation": {
+      "name": "",
+      "message": "",
+      "data": "",
+      "useDefaultBlockList": false,
+      "blockedEmailAddresses": []
+   },
+   "enabled": true,
+   "hidden": false,
+   "defaultValue": "",
+   "isSmartField": false,
+   "unselectedLabel": "",
+   "placeholder": "",
+   "dependentFieldFilters": [],
+   "labelHidden": false,
+   "propertyObjectType": "CONTACT",
+   "metaData": [],
+   "objectTypeId": "0-1"
    }
    */}
   var name = props.name,
@@ -68502,9 +68502,9 @@ var Field = function Field(props) {
     propertyObjectType = props.propertyObjectType,
     metaData = props.metaData,
     objectTypeId = props.objectTypeId;
-  return /*#__PURE__*/_react.default.createElement(_react2.Box, {
-    className: "field"
-  }, /*#__PURE__*/_react.default.createElement(_react2.Text, null, label));
+  return /*#__PURE__*/_react.default.createElement(_react2.FormControl, null, /*#__PURE__*/_react.default.createElement(_react2.FormLabel, null, label), /*#__PURE__*/_react.default.createElement(_react2.Input, {
+    type: type
+  }), /*#__PURE__*/_react.default.createElement(_react2.FormHelperText, null, "We'll never share your email."));
 };
 var FieldGroup = function FieldGroup(_ref) {
   var fields = _ref.fields,
@@ -68520,7 +68520,7 @@ var FieldGroup = function FieldGroup(_ref) {
       md: 'row'
     }
   }, fields.map(function (fieldData, index) {
-    return /*#__PURE__*/_react.default.createElement(Field, _extends({
+    return /*#__PURE__*/_react.default.createElement(FormField, _extends({
       key: index
     }, fieldData));
   }));
@@ -68535,25 +68535,140 @@ var FormBlock = function FormBlock(_ref2) {
   var initialValues = listoffields.reduce(function (acc, field) {
     return _objectSpread(_objectSpread({}, acc), {}, _defineProperty({}, field.name, field.defaultValue));
   }, {});
-  var formik = (0, _formik.useFormik)({
-    initialValues: initialValues,
-    onSubmit: function onSubmit(values) {
-      alert(JSON.stringify(values, null, 2));
+  console.log(listoffields);
+  function validateField(value) {
+    var error;
+    if (!value) {
+      error = 'Name is required';
+    } else if (value.toLowerCase() !== 'naruto') {
+      error = "Jeez! You're not a fan 😱";
     }
+    return error;
+  }
+  {/**
+      legitimate interest:
+      {
+          "legitimateInterestSubscriptionTypes": [
+              120511401
+          ],
+          "communicationConsentCheckboxes": [
+              {
+                  "communicationTypeId": 120511401,
+                  "label": "Ik ga ermee akkoord om andere berichten te ontvangen van Custonext.",
+                  "required": false
+              }
+          ],
+          "legitimateInterestLegalBasis": "LEGITIMATE_INTEREST_PQL",
+          "communicationConsentText": "Custonext is toegewijd aan het beschermen en respecteren van je privacy, en we zullen je persoonlijke informatie alleen gebruiken om je account te beheren en om de producten en diensten te leveren waar je ons om hebt gevraagd. Van tijd tot tijd willen wij contact met je opnemen over onze producten en diensten, en andere inhoud die je interessant zou kunnen vinden.  Als je ermee instemt dat wij contact met je opnemen, vink dan hieronder aan hoe je wilt dat wij contact met je opnemen:",
+          "processingConsentType": "IMPLICIT",
+          "processingConsentText": "Om je van de gevraagde inhoud te voorzien, moeten wij je persoonlijke gegevens opslaan en verwerken. Vink het onderstaande selectievakje aan als je ons toestemming geeft je persoonlijke gegevens voor dit doel op te slaan.",
+          "processingConsentCheckboxLabel": "Ik geef toestemming aan Custonext om mijn persoonlijke gegevens op te slaan en te verwerken.",
+          "privacyPolicyText": "<p>Custonext heeft de door jou verstrekte contactgegevens nodig om contact met je op te nemen over producten en diensten. Je kunt je op elk moment afmelden voor deze berichten. Bekijk ons <u><a href=\"https://www.custonext.nl/privacy\" target=\"_blank\">privacybeleid</a></u> voor meer informatie over hoe je je af kan melden, onze privacypraktijken en hoe we ons inzetten om je privacy te beschermen en respecteren.</p>",
+          "isLegitimateInterest": true
+      }
+   
+      Checkbox communication:
+      {
+          "legitimateInterestSubscriptionTypes": [
+              120511401
+          ],
+          "communicationConsentCheckboxes": [
+              {
+                  "communicationTypeId": 120511401,
+                  "label": "Ik ga ermee akkoord om andere berichten te ontvangen van Custonext.",
+                  "required": false
+              }
+          ],
+          "legitimateInterestLegalBasis": "LEGITIMATE_INTEREST_PQL",
+          "communicationConsentText": "Custonext is toegewijd aan het beschermen en respecteren van je privacy, en we zullen je persoonlijke informatie alleen gebruiken om je account te beheren en om de producten en diensten te leveren waar je ons om hebt gevraagd. Van tijd tot tijd willen wij contact met je opnemen over onze producten en diensten, en andere inhoud die je interessant zou kunnen vinden.  Als je ermee instemt dat wij contact met je opnemen, vink dan hieronder aan hoe je wilt dat wij contact met je opnemen:",
+          "processingConsentType": "IMPLICIT",
+          "processingConsentText": "Door hieronder op verzenden te klikken, geef je toestemming aan Custonext om de hierboven ingediende persoonlijke informatie op te slaan en te verwerken om je van de gevraagde inhoud te voorzien.",
+          "processingConsentCheckboxLabel": "Ik geef toestemming aan Custonext om mijn persoonlijke gegevens op te slaan en te verwerken.",
+          "privacyPolicyText": "Je kunt je op elk moment afmelden voor deze berichten. Bekijk ons privacybeleid voor meer informatie over hoe je af te melden, onze privacypraktijken en hoe we ons inzetten om je privacy te beschermen en respecteren.",
+          "isLegitimateInterest": false
+      }
+   
+      checkbox processing and communication:
+      {
+          "legitimateInterestSubscriptionTypes": [
+              120511401
+          ],
+          "communicationConsentCheckboxes": [
+              {
+                  "communicationTypeId": 120511401,
+                  "label": "Ik ga ermee akkoord om andere berichten te ontvangen van Custonext.",
+                  "required": false
+              }
+          ],
+          "legitimateInterestLegalBasis": "LEGITIMATE_INTEREST_PQL",
+          "communicationConsentText": "Custonext is toegewijd aan het beschermen en respecteren van je privacy, en we zullen je persoonlijke informatie alleen gebruiken om je account te beheren en om de producten en diensten te leveren waar je ons om hebt gevraagd. Van tijd tot tijd willen wij contact met je opnemen over onze producten en diensten, en andere inhoud die je interessant zou kunnen vinden.  Als je ermee instemt dat wij contact met je opnemen, vink dan hieronder aan hoe je wilt dat wij contact met je opnemen:",
+          "processingConsentType": "REQUIRED_CHECKBOX",
+          "processingConsentText": "Om je van de gevraagde inhoud te voorzien, moeten wij je persoonlijke gegevens opslaan en verwerken. Vink het onderstaande selectievakje aan als je ons toestemming geeft je persoonlijke gegevens voor dit doel op te slaan.",
+          "processingConsentCheckboxLabel": "Ik geef toestemming aan Custonext om mijn persoonlijke gegevens op te slaan en te verwerken.",
+          "privacyPolicyText": "Je kunt je op elk moment afmelden voor deze berichten. Bekijk ons privacybeleid voor meer informatie over hoe je af te melden, onze privacypraktijken en hoe we ons inzetten om je privacy te beschermen en respecteren.",
+          "isLegitimateInterest": false
+      }
+   */}
+  var legalConsentOptions = JSON.parse(formData.form.metaData.find(function (meta) {
+    return meta.name === 'legalConsentOptions';
+  }).value);
+  console.log(legalConsentOptions);
+  var Legal = function Legal() {
+    console.log(legalConsentOptions.isLegitimateInterest);
+    if (legalConsentOptions.isLegitimateInterest) {
+      return /*#__PURE__*/_react.default.createElement("div", {
+        className: "muted-text",
+        dangerouslySetInnerHTML: {
+          __html: legalConsentOptions.privacyPolicyText
+        }
+      });
+    }
+  };
+  return /*#__PURE__*/_react.default.createElement(_formik.Formik, {
+    initialValues: initialValues,
+    onSubmit: function onSubmit(values, actions) {
+      setTimeout(function () {
+        alert(JSON.stringify(values, null, 2));
+        actions.setSubmitting(false);
+      }, 1000);
+    }
+  }, function (props) {
+    return /*#__PURE__*/_react.default.createElement(_formik.Form, null, /*#__PURE__*/_react.default.createElement(_react2.Stack, {
+      spacing: 4
+    }, formData.form.formFieldGroups.map(function (f, index) {
+      return /*#__PURE__*/_react.default.createElement(_react2.Stack, {
+        key: index,
+        direction: {
+          base: 'column',
+          md: 'row'
+        },
+        columnGap: 4
+      }, f.fields.map(function (fieldData, index) {
+        return /*#__PURE__*/_react.default.createElement(_formik.Field, fieldData, function (_ref3) {
+          var field = _ref3.field,
+            form = _ref3.form;
+          var hidden = fieldData.hidden,
+            required = fieldData.required,
+            placeholder = fieldData.placeholder,
+            fieldType = fieldData.fieldType;
+          return /*#__PURE__*/_react.default.createElement(_react2.FormControl, _extends({
+            hidden: hidden,
+            isInvalid: form.errors.name && form.touched.name,
+            isRequired: required
+          }, placeholder, field), /*#__PURE__*/_react.default.createElement(_react2.FormLabel, null, fieldData.label), /*#__PURE__*/_react.default.createElement(_react2.Input, field), /*#__PURE__*/_react.default.createElement(_react2.FormHelperText, null, fieldData.description), /*#__PURE__*/_react.default.createElement(_react2.FormErrorMessage, null, form.errors.name));
+        });
+      }));
+    }), /*#__PURE__*/_react.default.createElement(Legal, null), /*#__PURE__*/_react.default.createElement(_react2.Button, {
+      mt: 4,
+      colorScheme: "teal",
+      isLoading: props.isSubmitting,
+      type: "submit"
+    }, formData.form.submitText)));
   });
-  return /*#__PURE__*/_react.default.createElement("form", {
-    onSubmit: formik.handleSubmit
-  }, formData === null || formData === void 0 ? void 0 : formData.form.formFieldGroups.map(function (itemData, index) {
-    return /*#__PURE__*/_react.default.createElement(FieldGroup, _extends({
-      key: index
-    }, itemData));
-  }), /*#__PURE__*/_react.default.createElement(_react2.Button, {
-    type: "submit"
-  }, formData.form.submitText));
 };
-var FormContainer = function FormContainer(_ref3) {
-  var formId = _ref3.formId,
-    portalId = _ref3.portalId;
+var FormContainer = function FormContainer(_ref4) {
+  var formId = _ref4.formId,
+    portalId = _ref4.portalId;
   var _useFormData = (0, _useFormData2.default)({
       formId: formId,
       portalId: portalId
@@ -68626,7 +68741,6 @@ var theme = {
         mb: "1"
       },
       p: {
-        fontSize: "1rem",
         lineHeight: "1.6rem"
       },
       blockquote: {
@@ -68856,7 +68970,7 @@ console.log(WidgetDivs);
 if (WidgetDivs.length === 0) {
   console.log('No Widget Divs found, create demo div');
   var demoDiv = document.createElement('div');
-  demoDiv.setAttribute('data-form-id', 'c487177d-28e1-4c41-825e-166ebf528800');
+  demoDiv.setAttribute('data-form-id', 'aeea8dac-9255-430b-a7ab-6c7a42afba4e');
   demoDiv.setAttribute('data-portal-id', '25053756');
   var container = document.getElementById('root');
   var root = (0, _client.createRoot)(container);

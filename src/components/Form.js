@@ -2,6 +2,7 @@ import React from "react";
 import useFormData from "../hooks/useFormData";
 import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, HStack, Input, Stack, Text } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
+import useUserInfo from "../hooks/useUserInfo";
 
 const FormField = (props) => {
 
@@ -267,6 +268,7 @@ return (
 
 const FormContainer = ({ formId, portalId }) => {
 const { formData, isLoading } = useFormData({ formId, portalId });
+const info = useUserInfo();
 
 return (
 <Box>
