@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import useFormData from "../hooks/useFormData";
-import { Alert, AlertIcon, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, HStack, Input, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Spinner, Stack } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
 import useUserInfo from "../hooks/useUserInfo";
 import axios from "axios";
-import { act } from "react-dom/test-utils";
 import { VideoPlayer } from "./VideoPlayer";
 
 const FormField = (props) => {
@@ -126,7 +125,7 @@ const FieldGroup = ({ fields, richText }) => {
     )
 };
 
-const FormBlock = ({context, formData, formId, portalId,type,setSuccess,setGatedVideo,setThankYouMessage,setRedirect}) => {
+const FormBlock = ({context, formData, formId, portalId,type,setSuccess,setGatedVideo,setThankYouMessage,setRedirect,color}) => {
     const [loading, setLoading ] = useState(false);
     const [results, setResults] = useState(null);
 
@@ -310,7 +309,7 @@ const FormBlock = ({context, formData, formId, portalId,type,setSuccess,setGated
                             <Legal />
                             <Button
                                 mt={4}
-                                colorScheme='teal'
+                                id='hs-button-submit'
                                 isLoading={props.isSubmitting}
                                 type='submit'
                             >
@@ -323,7 +322,8 @@ const FormBlock = ({context, formData, formId, portalId,type,setSuccess,setGated
     )
 };
 
-const FormContainer = ({ formId, portalId,type }) => {
+const FormContainer = ({ formId, portalId,type,color }) => {
+    console.log(color)
     const { formData, isLoading } = useFormData({ formId, portalId });
     const [gatedVideo, setGatedVideo] = useState(null);
     const [redirect, setRedirect] = useState(null);
@@ -352,6 +352,7 @@ const FormContainer = ({ formId, portalId,type }) => {
                         formId={formId} 
                         portalId={portalId} 
                         context={context}
+                        color={color}
                     />:
                     thankYouMessage ?
                     <Alert>

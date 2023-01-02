@@ -12,6 +12,7 @@ if(WidgetDivs.length === 0) {
   demoDiv.setAttribute('data-form-id', 'aeea8dac-9255-430b-a7ab-6c7a42afba4e');
   demoDiv.setAttribute('data-portal-id', '25053756');
   demoDiv.setAttribute('data-type', 'video');
+  demoDiv.setAttribute('data-color', 'white');
   const container = document.getElementById('root');
   const root = createRoot(container);
   root.render(

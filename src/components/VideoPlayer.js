@@ -1,4 +1,5 @@
-import { AspectRatio, Box, Center, Collapse, Flex, Heading, HStack, IconButton, Image, Input, Menu, MenuButton, MenuItem, MenuList, Portal, Progress, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Spacer, Stack, Text, textDecoration } from "@chakra-ui/react";
+import React from 'react';
+import { AspectRatio, Box, Center, Collapse, HStack, IconButton, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Stack, Text } from "@chakra-ui/react";
 import moment from "moment";
 import { useRef, useState } from "react";
 import { RiFullscreenFill, RiPauseFill, RiPlayFill, RiVolumeMuteFill, RiVolumeUpFill } from "react-icons/ri";
