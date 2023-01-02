@@ -73,23 +73,49 @@ export function VideoPlayer({ title,thumbnail,video, color }) {
                         </SliderTrack>
                         <SliderThumb  outlineColor='transparant' borderColor='white'  />
                     </Slider>
-                            <IconButton rounded={'0'} icon={playerState.isMuted? <RiVolumeMuteFill />: <RiVolumeUpFill/>} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800'onClick={toggleMute}/>
+                            <IconButton bgColor={colorScheme} rounded={'0'} icon={playerState.isMuted? <RiVolumeMuteFill />: <RiVolumeUpFill/>} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800'onClick={toggleMute}/>
 
                             //* Speed toggle thrue
-                            <IconButton rounded={'0'} icon={<Text fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()}/>
+                            <IconButton bgColor={colorScheme} rounded={'0'} icon={<Text py={2} fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()}/>
                            
 
 
-                            <IconButton rounded={'0'} icon={<RiFullscreenFill />} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggle} />
+                            <IconButton bgColor={colorScheme} rounded={'0'} icon={<RiFullscreenFill />} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggle} />
 
                         </HStack>
                      </Collapse>
                      </Box>
                  </Stack>
                     :
-                    <Center position='absolute' top={0} width='full' height='full' opacity={0.9} bg='linear-gradient(to bottom right, #44444499, #00000088)'  onClick={togglePlay}>
+                    
+                    <Stack position='absolute' top={0} width='full' height='full' opacity={0.9} bg='linear-gradient(to bottom right, #44444499, #00000088)'  onClick={togglePlay}>
+                        <Center flex={1}>
                         <IconButton borderRadius={'full'} boxSize='70px' fontSize={'30'} icon={<RiPlayFill />}   />
-                    </Center>}
+                        </Center>
+                        <Box w='full' bg={colorScheme} >
+                    <HStack  w='full' spacing={3}> 
+                            <IconButton rounded={'0'} icon={<RiPauseFill />} variant='ghost'_hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={togglePlay}/>
+                            <Text  textAlign='right' fontSize={'xs'}  color='whiteAlpha.800'>{currentTime} / {formattedDuration}</Text>
+                            <Slider flex={{base: 2, lg: 5}}  colorScheme={''} size={'sm'} value={playerState.progress} 
+                        onChange={(e) => handleVideoProgress(e)}>
+                        <SliderTrack h="full" opacity={isHovering? 0.7 : 0.5}>
+                            <SliderFilledTrack transition={isHovering? '0':'width 1s'} />
+                        </SliderTrack>
+                        <SliderThumb  outlineColor='transparant' borderColor='white'  />
+                    </Slider>
+                            <IconButton bgColor={colorScheme} rounded={'0'} icon={playerState.isMuted? <RiVolumeMuteFill />: <RiVolumeUpFill/>} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800'onClick={toggleMute}/>
+
+                            //* Speed toggle thrue
+                            <IconButton bgColor={colorScheme} rounded={'0'} icon={<Text py={2} fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()}/>
+                           
+
+
+                            <IconButton bgColor={colorScheme} rounded={'0'} icon={<RiFullscreenFill />} variant='ghost' _hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggle} />
+
+                        </HStack>
+                        </Box>
+                    </Stack>
+                    }
             </Box>
         </AspectRatio>);
 }
