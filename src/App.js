@@ -1,7 +1,7 @@
 import * as React from 'react'
-import Form from "./components/Form";
 import "./styles.css";
 import { ChakraProvider, extendTheme, useTheme } from '@chakra-ui/react'
+import { VideoPlayer } from './components/VideoPlayer';
 
 const theme = {
   fonts:{
@@ -261,7 +261,7 @@ export default function App({divElement}) {
   
   return (
     <ChakraProvider theme={CustonextTheme}>
-      <Form {...divElement.dataset} />
+      <VideoPlayer {...divElement.dataset} />
     </ChakraProvider>
   );
 }

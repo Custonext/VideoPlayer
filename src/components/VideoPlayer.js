@@ -6,8 +6,9 @@ import { RiFullscreenFill, RiPauseFill, RiPlayFill, RiVolumeMuteFill, RiVolumeUp
 import useVideoPlayer from "../hooks/useVideoPlayer";
 import { useFullscreen, useIdle } from '@mantine/hooks';
 
-export function VideoPlayer({ video, poster }) {
-    const bgImage = poster || '';
+export function VideoPlayer({ title,thumbnail,video, color }) {
+    const bgImage = thumbnail || '';
+    const colorScheme = color || 'gray.700';
     const { ref, toggle, fullscreen } = useFullscreen();
     const idle = useIdle(4000);
     const [isHovering, setIsHovering] = useState(false);
@@ -47,11 +48,11 @@ export function VideoPlayer({ video, poster }) {
                 {!video ? <></>:
             <video
                 ref={videoElement}
+                title={title}
                 width='100%'
                 poster={bgImage}
                 preload="metadata"
                 src={video}
-                
                 onTimeUpdate={handleOnTimeUpdate}
             />}
                 {playerState.isPlaying ? 
@@ -60,7 +61,7 @@ export function VideoPlayer({ video, poster }) {
                      <Box flex={1} w='full' h="full" onClick={togglePlay}></Box>
                      
                     
-                    <Box w='full' bg={'gray.700'}>
+                    <Box w='full' bg={colorScheme}>
                     <Collapse startingHeight={0} in={isHovering && !idle} pb={0}  >
                         <HStack  w='full' spacing={3}> 
                             <IconButton rounded={'0'} icon={<RiPauseFill />} variant='ghost'_hover={{color:'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={togglePlay}/>
