@@ -11,6 +11,7 @@ if(WidgetDivs.length === 0) {
   const demoDiv = document.createElement('div');
   demoDiv.setAttribute('data-form-id', 'aeea8dac-9255-430b-a7ab-6c7a42afba4e');
   demoDiv.setAttribute('data-portal-id', '25053756');
+  demoDiv.setAttribute('data-type', 'video');
   const container = document.getElementById('root');
   const root = createRoot(container);
   root.render(
@@ -24,7 +25,6 @@ if(WidgetDivs.length === 0) {
 
 } else {
   WidgetDivs.forEach(divElement => {
-    console.log(divElement);
     const root = createRoot(divElement);
     root.render(
       <React.StrictMode>

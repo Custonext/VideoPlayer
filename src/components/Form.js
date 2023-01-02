@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useFormData from "../hooks/useFormData";
-import { Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, HStack, Input, Stack, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Button, FormControl, FormErrorMessage, FormHelperText, FormLabel, HStack, Input, Spinner, Stack, Text } from "@chakra-ui/react";
 import { Field, Form, Formik } from 'formik';
 import useUserInfo from "../hooks/useUserInfo";
+import axios from "axios";
+import { act } from "react-dom/test-utils";
+import { VideoPlayer } from "./VideoPlayer";
 
 const FormField = (props) => {
 
-{/**
+    {/**
 email field data:
 {
     "name": "email",
@@ -101,48 +104,67 @@ first name field data:
 "objectTypeId": "0-1"
 }
 */}
-const { name, label, type, fieldType, description, groupName, displayOrder, required, selectedOptions, options, validation, enabled, hidden, defaultValue, isSmartField, unselectedLabel, placeholder, dependentFieldFilters, labelHidden, propertyObjectType, metaData, objectTypeId } = props;
+    const { name, label, type, fieldType, description, groupName, displayOrder, required, selectedOptions, options, validation, enabled, hidden, defaultValue, isSmartField, unselectedLabel, placeholder, dependentFieldFilters, labelHidden, propertyObjectType, metaData, objectTypeId } = props;
 
-return (
-<FormControl>
-    <FormLabel>{label}</FormLabel>
-    <Input type={type} />
-    <FormHelperText>We'll never share your email.</FormHelperText>
-</FormControl>
-)
+    return (
+        <FormControl>
+            <FormLabel>{label}</FormLabel>
+            <Input type={type} />
+            <FormHelperText>We'll never share your email.</FormHelperText>
+        </FormControl>
+    )
 };
 
-const FieldGroup = ({fields,richText}) => {
-if(fields.length === 0) return <div dangerouslySetInnerHTML={{__html: richText.content}} ></div>;
-return (
-<Stack direction={{ base: 'column', md: 'row' }}>
-    {fields.map((fieldData, index) => (
-        <FormField key={index} {...fieldData} />
-    ))}
-</Stack>
-)
+const FieldGroup = ({ fields, richText }) => {
+    if (fields.length === 0) return <div dangerouslySetInnerHTML={{ __html: richText.content }} ></div>;
+    return (
+        <Stack direction={{ base: 'column', md: 'row' }}>
+            {fields.map((fieldData, index) => (
+                <FormField key={index} {...fieldData} />
+            ))}
+        </Stack>
+    )
 };
 
-const FormBlock = ({ formData }) => {
-// check if redirectUrl is set or thankYouMessageJson
-const redirectAfterSubmit = formData.form.redirectUrl ? true : false;
-const listoffields = formData.form.formFieldGroups.reduce((acc, group) => {
-return [...acc, ...group.fields];
-}, []);
-const initialValues = listoffields.reduce((acc, field) => {
-return { ...acc, [field.name]: field.defaultValue };
-}, {});
-console.log(listoffields);
-function validateField(value) {
-let error
-if (!value) {
-    error = 'Name is required'
-} else if (value.toLowerCase() !== 'naruto') {
-    error = "Jeez! You're not a fan 😱"
-}
-return error
-}
-{/**
+const FormBlock = ({context, formData, formId, portalId,type,setSuccess,setGatedVideo,setThankYouMessage,setRedirect}) => {
+    const [loading, setLoading ] = useState(false);
+    const [results, setResults] = useState(null);
+
+    // check if redirectUrl is set or thankYouMessageJson
+
+    useEffect(() => {
+        if (results && results.redirectUri && type !== 'video') {
+            setRedirect(results.redirectUri)
+            setSuccess(true)
+        } else if (results && results.redirectUri && type === 'video') {
+            setGatedVideo(results.redirectUri);
+            setSuccess(true)
+        } else if (results && results.inlineMessage) {
+            setThankYouMessage(results.inlineMessage);
+            setSuccess(true)
+        }
+
+    }, [results]);
+
+
+
+    const listoffields = formData.form.formFieldGroups.reduce((acc, group) => {
+        return [...acc, ...group.fields];
+    }, []);
+    const initialValues = listoffields.reduce((acc, field) => {
+        return { ...acc, [field.name]: field.defaultValue };
+    }, {});
+
+    function validateField(value) {
+        let error
+        if (!value) {
+            error = 'Name is required'
+        } else if (value.toLowerCase() !== 'naruto') {
+            error = "Jeez! You're not a fan 😱"
+        }
+        return error
+    }
+    {/**
     legitimate interest:
     {
         "legitimateInterestSubscriptionTypes": [
@@ -206,81 +228,145 @@ return error
         "isLegitimateInterest": false
     }
 */}
-const legalConsentOptions =  JSON.parse(formData.form.metaData.find(meta => meta.name === 'legalConsentOptions').value);
-console.log( (legalConsentOptions));
-const Legal = () => {
-    console.log(legalConsentOptions.isLegitimateInterest)
-    if(legalConsentOptions.isLegitimateInterest){
-        return(
-            <div className="muted-text" dangerouslySetInnerHTML={{__html: legalConsentOptions.privacyPolicyText}} ></div>
-        )
-    }
-}
-return (
-<Formik
-    initialValues={initialValues}
-    onSubmit={(values, actions) => {
-    setTimeout(() => {
-        alert(JSON.stringify(values, null, 2))
-        actions.setSubmitting(false)
-    }, 1000)
-    }}
->
-    {(props) => {
-    
-    return(
-    <Form>
-        <Stack spacing={4}>
-            
-        { formData.form.formFieldGroups.map((f, index) => (
-            <Stack key={index} direction={{base:'column',md:'row'}} columnGap={4}> 
-        {f.fields.map((fieldData,index)=>(
-            
-        <Field {...fieldData}>
-        {({ field, form }) => {
-            const {hidden,required,placeholder,fieldType} = fieldData;
+    const legalConsentOptions = JSON.parse(formData.form.metaData.find(meta => meta.name === 'legalConsentOptions').value);
+    const Legal = () => {
+        if (legalConsentOptions.isLegitimateInterest) {
             return (
-            <FormControl hidden={hidden} isInvalid={form.errors.name && form.touched.name} isRequired={required} {...placeholder} {...field}>
-            <FormLabel>{fieldData.label}</FormLabel>
-            <Input {...field}  />
-            <FormHelperText>{fieldData.description}</FormHelperText>
-            <FormErrorMessage>{form.errors.name}</FormErrorMessage>
-            </FormControl>
-            
-        )}}
-        </Field>))}
-        
-        </Stack>))}
-        <Legal/>
-        <Button
-        mt={4}
-        colorScheme='teal'
-        isLoading={props.isSubmitting}
-        type='submit'
+                <div className="muted-text" dangerouslySetInnerHTML={{ __html: legalConsentOptions.privacyPolicyText }} ></div>
+            )
+        }
+    }
+    return (
+        <Formik
+            initialValues={initialValues}
+            onSubmit={(values, actions) => {
+                setLoading(true)
+                const fields = Object.keys(values).map(key => {
+                    return { name: key, value: values[key] }
+                })
+                const checkboxes = legalConsentOptions.communicationConsentCheckboxes.map(item => {
+                    return {
+                      value: true,
+                      subscriptionTypeId: item.communicationTypeId,
+                      text: item.label
+                    }
+                  })
+                const consent = {
+                    consentToProcess: true,
+                    text: legalConsentOptions.privacyPolicyText,
+                    communications: checkboxes
+                }
+                
+
+
+                axios.post(`https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formId}`,
+                    {
+                        fields,
+                        context,
+                        "legalConsentOptions": { consent }
+                    }
+                ).then(res => {
+                    
+                    setResults(res.data)
+                    actions.setSubmitting(false)
+                    actions.resetForm()
+                    
+
+                }).catch(err => {
+                    console.log(err)
+                }).finally(() => {
+                    setLoading(false)
+                })
+
+
+            }}
         >
-        {formData.form.submitText}
-        </Button></Stack>
-    </Form>
-    )}}
-</Formik>
-)
+            {(props) => {
+
+                return (
+                    <Form>
+                        <Stack spacing={4}>
+
+                            {formData.form.formFieldGroups.map((f, index) => (
+                                <Stack key={index} direction={{ base: 'column', md: 'row' }} columnGap={4}>
+                                    {f.fields.map((fieldData,index) => (
+
+                                        <Field key={index} {...fieldData}>
+                                            {({ field, form }) => {
+                                                const { hidden, required, placeholder, fieldType } = fieldData;
+                                                return (
+                                                    <FormControl hidden={hidden} isInvalid={form.errors.name && form.touched.name} isRequired={required} {...field}>
+                                                        <FormLabel>{fieldData.label}</FormLabel>
+                                                        <Input {...field} />
+                                                        <FormHelperText>{fieldData.description}</FormHelperText>
+                                                        <FormErrorMessage>{form.errors.name}</FormErrorMessage>
+                                                    </FormControl>
+
+                                                )
+                                            }}
+                                        </Field>))}
+
+                                </Stack>))}
+                            <Legal />
+                            <Button
+                                mt={4}
+                                colorScheme='teal'
+                                isLoading={props.isSubmitting}
+                                type='submit'
+                            >
+                                {formData.form.submitText}
+                            </Button></Stack>
+                    </Form>
+                )
+            }}
+        </Formik>
+    )
 };
 
-const FormContainer = ({ formId, portalId }) => {
-const { formData, isLoading } = useFormData({ formId, portalId });
-const info = useUserInfo();
-
-return (
-<Box>
-    <Stack className="container">
-        {isLoading || !formData ? (
-            <p className="loading-text">Loading Data...</p>
-        ) :
-            <FormBlock formData={formData} />
+const FormContainer = ({ formId, portalId,type }) => {
+    const { formData, isLoading } = useFormData({ formId, portalId });
+    const [gatedVideo, setGatedVideo] = useState(null);
+    const [redirect, setRedirect] = useState(null);
+    const [thankYouMessage, setThankYouMessage] = useState(null);
+    const [success, setSuccess] = useState(false);
+    const context  = useUserInfo();
+    useEffect(() => {
+        if (redirect) {
+            window.location.href = redirect;
         }
-    </Stack>
-</Box>
-);
+    }, [redirect]);
+
+    return (
+        <Box maxW={'600px'}>
+            <Stack className="container">
+                {isLoading || !formData ? (
+                    <p className="loading-text">Loading Data...</p>
+                ) : !success ? 
+                    <FormBlock 
+                        setGatedVideo={setGatedVideo}
+                        setRedirect={setRedirect}
+                        setThankYouMessage={setThankYouMessage}
+                        setSuccess={setSuccess}
+                        type={type} 
+                        formData={formData} 
+                        formId={formId} 
+                        portalId={portalId} 
+                        context={context}
+                    />:
+                    thankYouMessage ?
+                    <Alert>
+                        <AlertIcon />
+                        {thankYouMessage}
+                    </Alert>
+                    : gatedVideo?   
+                   
+                        <VideoPlayer video={gatedVideo} />
+                   :
+                    <Spinner/>
+                }
+            </Stack>
+        </Box>
+    );
 };
 
 export default FormContainer;

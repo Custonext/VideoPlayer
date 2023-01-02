@@ -257,11 +257,11 @@ const theme = {
 const CustonextTheme = extendTheme(theme);
 
 export default function App({divElement}) {
-  const {formId,portalId} = divElement.dataset;
+  
   
   return (
     <ChakraProvider theme={CustonextTheme}>
-      <Form formId={formId} portalId={portalId} />
+      <Form {...divElement.dataset} />
     </ChakraProvider>
   );
 }

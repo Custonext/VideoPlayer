@@ -23,9 +23,8 @@ const useUserInfo = () => {
         setPageName(document.title)
         setPageUrl(window.location.href)
     }, [])
-    console.log(ipAddress, pageUri,hutk, pageName);
 
-    if(ipAddress && pageUri && hutk && pageName) {
+    if(ipAddress || pageUri || hutk || pageName) {
         return { ipAddress, pageUri,hutk, pageName}
     };
 };

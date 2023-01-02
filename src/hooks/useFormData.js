@@ -263,7 +263,6 @@ const useFormData = ({formId,portalId}) => {
         )
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);            
             setFormData(data);
         })
         .finally(() => setLoading(false));
