@@ -10,8 +10,29 @@ import App from './App';
 // data-color="red">
 
 const WidgetDivs = document.querySelectorAll('.cnxt-video-player');
+{/** if(WidgetDivs.length === 0) {
+  console.log('No Widget Divs found, create demo div');
+  const demoDiv = document.createElement('div');
+  
+  demoDiv.setAttribute('data-title', 'Video Title Demo');
+  demoDiv.setAttribute('data-thumbnail', 'https://lp.custonext.nl/hubfs/Benchmark.jpeg');
+  demoDiv.setAttribute('data-video', 'https://lp.custonext.nl/hubfs/Videos/Webinar%20DISC%20en%20marketing.mp4');
+  demoDiv.setAttribute('data-color', 'purple.300');
+  const container = document.getElementById('root');
+  const root = createRoot(container);
+  console.log(root);
+  root.render(
+    <React.StrictMode>
+     
+        <App divElement={demoDiv}/>
+    
+    </React.StrictMode>
+    
+  )
 
-  WidgetDivs.forEach(divElement => {
+} else {
+*/}  
+WidgetDivs.forEach(divElement => {
     const root = createRoot(divElement);
     root.render(
       <React.StrictMode>
