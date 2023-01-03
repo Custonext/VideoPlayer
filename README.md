@@ -4,7 +4,7 @@ Add a div with the class cnxt-video-player.
 - thumbnail url
 - video url
 - title 
-- color, you can use Chakra UI colors (purple.500) or a Hex color (#000000)
+- color, you can use Chakra UI colors: gray, red, orange, yellow, green, teal, blue, cyan, purple
 
 Add this script to your page: https://custonext.github.io/VideoPlayer/widget/index.js
 
