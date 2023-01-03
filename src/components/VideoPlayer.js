@@ -106,9 +106,9 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
                     </Stack>
                     :
 
-                    <Stack position='absolute' top={0} width='full' height='full' bgColor={'#11111199'} onClick={togglePlay}>
+                    <Stack position='absolute' top={0} width='full' height='full' bgColor={'#44444466'} onClick={togglePlay}>
                         <Center flex={1}>
-                            <IconButton borderRadius={'full'} color={colorScheme[500]} bg={'white'} boxSize='70px' fontSize={'30'} icon={<RiPlayFill />} opacity={0.9}/>
+                            <IconButton borderRadius={'full'} color={colorScheme[500]} bg={'white'} boxSize='70px' fontSize={'30'} icon={<RiPlayFill />} boxShadow='xl' />
                         </Center>
                         
                     </Stack>
