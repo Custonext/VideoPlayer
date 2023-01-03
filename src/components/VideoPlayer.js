@@ -50,15 +50,24 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
     const timeFormatting = videoDuration >= 3600 ? "HH:mm:ss" : "mm:ss";
     const formattedDuration = moment.utc(videoDuration * 1000).format(timeFormatting);
     const currentTime = moment.utc((videoDuration / 100 * playerState.progress) * 1000).format(timeFormatting);
+    const videoTapped = () => {
+        const screenWidth = window.innerWidth;
+        if(screenWidth < 768) {
+            toggle();
+        } else {
+            togglePlay();
+        }
+    }
 
     return (
-        <AspectRatio ratio={16 / 9} position='relative' width='full' >
+        <AspectRatio ratio={16 / 9} position='relative' width='full' maxH={'100vh'} >
             <Box w='full' position={'absolute'} top={0} ref={ref}>
                 {!video ? <></> :
                     <video
                         ref={videoElement}
                         title={title}
                         width='100%'
+                       style={{maxHeight: '100vh'}}
                         poster={bgImage}
                         preload="metadata"
                         src={video}
@@ -67,7 +76,7 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
                 {playerState.isPlaying ?
 
                     <Stack p={0} spacing={0} align={'flex-end'} position='absolute' bottom={0} width='full' height='full' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} >
-                        <Box flex={1} w='full' h="full" onClick={togglePlay}></Box>
+                        <Box flex={1} w='full' h="full" onClick={videoTapped}></Box>
 
 
                         <Box w='full' bg={colorScheme[500]}>
@@ -82,10 +91,10 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
                                         </SliderTrack>
                                         <SliderThumb outlineColor='transparant' borderColor='white' />
                                     </Slider>
-                                    <IconButton bgColor={colorScheme[500]} rounded={'0'} icon={playerState.isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpFill />} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggleMute} />
+                                    <IconButton display={{base:'none',sm:'block'}}  bgColor={colorScheme[500]} rounded={'0'} icon={playerState.isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpFill />} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggleMute} />
 
                             //* Speed toggle thrue
-                                    <IconButton bgColor={colorScheme[500]} rounded={'0'} icon={<Text py={2} fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()} />
+                                    <IconButton display={{base:'none',sm:'block'}} bgColor={colorScheme[500]} rounded={'0'} icon={<Text py={2} fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()} />
 
 
 
