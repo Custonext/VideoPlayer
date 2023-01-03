@@ -9,8 +9,8 @@ export default function App({divElement}) {
   
   return (
    
-      <Box fontFamily={'sans-serif'}>
-      <VideoPlayer {...divElement.dataset} />
+      <Box fontFamily={'sans-serif'} rounded='md' overflow={'hidden'}>
+        <VideoPlayer {...divElement.dataset} />
       </Box>
    
   );
