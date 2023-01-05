@@ -29,8 +29,10 @@ if(WidgetDivs.length === 0) {
   demoDiv.setAttribute('data-title', 'Video Title Demo');
   demoDiv.setAttribute('data-thumbnail', 'https://lp.custonext.nl/hubfs/Benchmark.jpeg');
   demoDiv.setAttribute('data-video', 'https://lp.custonext.nl/hubfs/Videos/Webinar%20DISC%20en%20marketing.mp4');
-  demoDiv.setAttribute('data-color', 'blue');
-
+  demoDiv.setAttribute('data-color', 'orange');
+  demoDiv.setAttribute('data-radius', 'xl');
+  demoDiv.setAttribute('data-shadow', 'xl');
+  demoDiv.setAttribute('data-ratio', 'square');
   const container = document.getElementById('root');
 
   const shadowRoot = container.attachShadow({ mode: "open" });

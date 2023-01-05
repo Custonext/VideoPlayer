@@ -6,8 +6,9 @@ import { RiFullscreenFill, RiPauseFill, RiPlayFill, RiVolumeMuteFill, RiVolumeUp
 import useVideoPlayer from "../hooks/useVideoPlayer";
 import { useFullscreen, useIdle } from '@mantine/hooks';
 
-export function VideoPlayer({ title, thumbnail, video, color }) {
+export function VideoPlayer({ title, thumbnail, video, color, ratio }) {
     const bgImage = thumbnail || '';
+    const aspectRatio = ratio === 'square' ? 1 / 1 : ratio === 'classic' ? 4 / 3 : ratio == 'wide'? 21 / 9: 16 / 9;
     const chakraCol = useTheme() ;
     // check if color is a valid color: Gray Red Orange Yellow Green Teal Blue Cyan Purple
     const validColor = (color) => {
@@ -60,7 +61,7 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
     }
 
     return (
-        <AspectRatio ratio={16 / 9} position='relative' width='full' maxH={'100vh'} >
+        <AspectRatio ratio={aspectRatio} position='relative' width='full' maxH={'100vh'} bgColor={colorScheme[50]}>
             <Box w='full' position={'absolute'} top={0} ref={ref}>
                 {!video ? <></> :
                     <video
@@ -75,7 +76,7 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
                     />}
                 {playerState.isPlaying ?
 
-                    <Stack p={0} spacing={0} align={'flex-end'} position='absolute' bottom={0} width='full' height='full' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} >
+                    <Stack p={0} spacing={0} align={'center'} position='absolute' bottom={0} width='full' height='full' onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} >
                         <Box flex={1} w='full' h="full" onClick={videoTapped}></Box>
 
 
@@ -83,7 +84,7 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
                             <Collapse startingHeight={0} in={isHovering && !idle} pb={0}  >
                                 <HStack w='full' spacing={3}>
                                     <IconButton rounded={'0'} icon={<RiPauseFill />} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={togglePlay} />
-                                    <Text textAlign='right' fontSize={'xs'} color='whiteAlpha.800'>{currentTime} / {formattedDuration}</Text>
+                                    <Text px={3} textAlign='right' fontSize={'xs'} color='whiteAlpha.800'>{currentTime} / {formattedDuration}</Text>
                                     <Slider flex={{ base: 2, lg: 5 }} colorScheme={''} size={'sm'} value={playerState.progress}
                                         onChange={(e) => handleVideoProgress(e)}>
                                         <SliderTrack h="full" opacity={isHovering ? 0.7 : 0.5}>
@@ -91,10 +92,11 @@ export function VideoPlayer({ title, thumbnail, video, color }) {
                                         </SliderTrack>
                                         <SliderThumb outlineColor='transparant' borderColor='white' />
                                     </Slider>
-                                    <IconButton display={{base:'none',sm:'block'}}  bgColor={colorScheme[500]} rounded={'0'} icon={playerState.isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpFill />} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggleMute} />
+                                    <IconButton 
+                                    alignContent={'center'} display={{base:'none',sm:'inline-flex'}}  bgColor={colorScheme[500]} rounded={'0'} icon={playerState.isMuted ? <RiVolumeMuteFill /> : <RiVolumeUpFill />} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={toggleMute} />
 
                             //* Speed toggle thrue
-                                    <IconButton display={{base:'none',sm:'block'}} bgColor={colorScheme[500]} rounded={'0'} icon={<Text py={2} fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()} />
+                                    <IconButton display={{base:'none',sm:'inline-flex'}} bgColor={colorScheme[500]} rounded={'0'} icon={<Text py={2} fontSize={'xs'}>{playerState.speed}x</Text>} variant='ghost' _hover={{ color: 'black', backgroundColor: 'whiteAlpha.800' }} color='whiteAlpha.800' onClick={() => toggleVideoSpeed()} />
 
 
 
